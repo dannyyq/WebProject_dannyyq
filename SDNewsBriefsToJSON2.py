@@ -24,15 +24,29 @@ soupSDNewsBriefs = BeautifulSoup(pageSDNewsBriefs.content, 'lxml')
 for position in soupSDNewsBriefs.find_all('div' , class_='fpItem '):
     itemName = position.find('a', class_='itemTitle').string
     if(position.find('div' , class_='itemPrice') is not None):
-        price = position.find('div' , class_='itemPrice').string.split('\n')[0]
+        price = position.find('div' , class_='itemPrice').next_element.split('\n')[0]
     if (position.find('div', class_='priceInfo') is not None and price + position.find('div', class_='priceInfo').string is not None and position.find('div' , class_='itemPrice').string is not None):
-        price = price + ' (' + position.find('div', class_='priceInfo').string + ')'
+        extraInfo = position.find('div', class_='priceInfo').string
 
     link = 'https://slickdeals.net' + position.find('a', class_='itemTitle').get('href')
     retailer = position.find('a' , class_='itemStore').string.split('\u00a0')[0]
 
     # Make changes to response for APNewsBriefs
-    response.append({'Item': itemName, 'Price': price, 'Retailer' : retailer, 'Source': link})
+    response.append({'Item': itemName, 'Price': price, 'Extra Info' : extraInfo, 'Retailer' : retailer, 'Source': link})
+
+for position in soupSDNewsBriefs.find_all('div' , class_='fpItem pctOff '):
+    itemName = position.find('a', class_='itemTitle').string
+    if(position.find('div' , class_='itemPrice') is not None):
+        price = position.find('div' , class_='itemPrice').next_element.split('\n')[0]
+    if (position.find('div', class_='priceInfo') is not None and price + position.find('div', class_='priceInfo').string is not None and position.find('div' , class_='itemPrice').string is not None):
+        extraInfo = position.find('div', class_='priceInfo').string
+
+    link = 'https://slickdeals.net' + position.find('a', class_='itemTitle').get('href')
+    retailer = position.find('a' , class_='itemStore').string.split('\u00a0')[0]
+
+    # Make changes to response for APNewsBriefs
+    response.append({'Item': itemName, 'Price': price, 'Extra Info' : extraInfo, 'Retailer' : retailer, 'Source': link})
+
 
 # Write response to JSON file
 postingsFile = '/Users/Danny/Desktop/CSC3130/WebProject_dannyyq/' + today + '.SDNewsBriefs.json'

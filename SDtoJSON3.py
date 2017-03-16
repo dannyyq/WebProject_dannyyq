@@ -25,7 +25,7 @@ for position in soupSDNewsBriefs.find_all('div' , class_='fpItem '):
     itemName = position.find('a', class_='itemTitle').string
     if(position.find('div' , class_='itemPrice') is not None):
         price = position.find('div' , class_='itemPrice').next_element.split('\n')[0]
-    if (position.find('div', class_='priceInfo') is not None and price + position.find('div', class_='priceInfo').string is not None and position.find('div' , class_='itemPrice').string is not None):
+    if (position.find('div', class_='priceInfo') is not None):
         extraInfo = position.find('div', class_='priceInfo').string
 
     link = 'https://slickdeals.net' + position.find('a', class_='itemTitle').get('href')
@@ -38,7 +38,7 @@ for position in soupSDNewsBriefs.find_all('div' , class_='fpItem pctOff '):
     itemName = position.find('a', class_='itemTitle').string
     if(position.find('div' , class_='itemPrice') is not None):
         price = position.find('div' , class_='itemPrice').next_element.split('\n')[0]
-    if (position.find('div', class_='priceInfo') is not None and price + position.find('div', class_='priceInfo').string is not None and position.find('div' , class_='itemPrice').string is not None):
+    if (position.find('div', class_='priceInfo') is not None):
         extraInfo = position.find('div', class_='priceInfo').string
 
     link = 'https://slickdeals.net' + position.find('a', class_='itemTitle').get('href')
